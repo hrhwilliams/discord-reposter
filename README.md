@@ -15,5 +15,8 @@ so:
 $ python3 -m pip install -r requirements.txt
 ```
 
-Having done all of that, you can now bring the bot online by running `main.py`
-in the root of the repository.
+Having done all of that, you can now bring the bot online by running:
+
+```
+$ python3 main.py
+```

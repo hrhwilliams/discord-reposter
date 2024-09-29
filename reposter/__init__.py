@@ -35,6 +35,8 @@ def create_client():
                         await message.channel.send('https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963')
                     elif (current_file := load.get_current_file()) is not None:
                         await commands.startposting(current_file, message.channel)
+                    else:
+                        await message.channel.send('no file loaded.')
                 case '$whoami':
                     await commands.whoami(message)
                 case _:

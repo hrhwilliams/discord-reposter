@@ -30,3 +30,6 @@ the bot open and parse a chat export. To begin reposting, send the message
 There is no way to tell the bot to stop once it has begun reposting other
 than to forcefully shut the bot down by pressing Ctrl-C in the terminal
 the bot is running in.
+
+Currently the only supported format is HTML for the file containing the
+messages to be reposted.

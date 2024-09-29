@@ -1,8 +1,6 @@
 import json
 import requests
 
-from datetime import datetime
-
 
 current_file = None
 
@@ -15,7 +13,8 @@ def set_current_file(attachment):
     for line in str(response.content, encoding='utf-8').split('\n'):
         if line.strip()[:16] == 'let messages = [':
             current_file = json.loads(line.strip()[15:-1])
-            break
+            return True
+    return False
 
 
 def get_current_file():

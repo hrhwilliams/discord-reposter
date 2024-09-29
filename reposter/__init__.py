@@ -27,8 +27,10 @@ def create_client():
                     else:
                         for attachment in message.attachments:
                             if attachment.filename.split('.')[-1].lower() in ('htm', 'html'):
-                                load.set_current_file(attachment)
-                                await message.channel.send("success")
+                                if load.set_current_file(attachment):
+                                    await message.channel.send('success')
+                                else:
+                                    await message.channel.send('failed to find messages to repost.')
                                 break
                 case '$startposting':
                     if not auth.auth(message.author):

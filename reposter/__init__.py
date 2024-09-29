@@ -7,41 +7,50 @@ def create_client():
     intents.message_content = True
     client = discord.Client(intents=intents)
 
-    with open('allowlist.txt', 'r', encoding='utf-8') as file:
+    with open("allowlist.txt", "r", encoding="utf-8") as file:
         for line in file.readlines():
             auth.allow(line.strip())
 
     @client.event
     async def on_ready():
-        print(f'Logged in as {client.user}')
+        print(f"Logged in as {client.user}")
 
     @client.event
     async def on_message(message):
-        if message.content.startswith('$'):
+        if message.content.startswith("$"):
             match message.content:
-                case '$ping':
+                case "$ping":
                     await commands.ping(message.channel)
-                case '$loadfile':
+                case "$loadfile":
                     if not auth.auth(message.author):
-                        await message.channel.send('https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963')
+                        await message.channel.send(
+                            "https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963"
+                        )
                     else:
                         for attachment in message.attachments:
-                            if attachment.filename.split('.')[-1].lower() in ('htm', 'html'):
+                            if attachment.filename.split(".")[-1].lower() in (
+                                "htm",
+                                "html",
+                            ):
                                 if load.set_current_file(attachment):
-                                    await message.channel.send('success')
+                                    await message.channel.send("success")
                                 else:
-                                    await message.channel.send('failed to find messages to repost.')
+                                    await message.channel.send(
+                                        "failed to find messages to repost."
+                                    )
                                 break
-                case '$startposting':
+                case "$startposting":
                     if not auth.auth(message.author):
-                        await message.channel.send('https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963')
+                        await message.channel.send(
+                            "https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963"
+                        )
                     elif (current_file := load.get_current_file()) is not None:
                         await commands.startposting(current_file, message.channel)
                     else:
-                        await message.channel.send('no file loaded.')
-                case '$whoami':
+                        await message.channel.send("no file loaded.")
+                case "$whoami":
                     await commands.whoami(message)
                 case _:
-                    print(f'Attempted unknown command {message.content}')
+                    print(f"Attempted unknown command {message.content}")
 
     return client

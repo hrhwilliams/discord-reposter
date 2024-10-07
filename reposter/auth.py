@@ -8,4 +8,4 @@ def allow(id):
 
 def auth(author):
     global allowlist
-    return author.id in allowlist
+    return int(author.id) in allowlist

@@ -22,32 +22,9 @@ def create_client():
                 case "$ping":
                     await commands.ping(message.channel)
                 case "$loadfile":
-                    if not auth.auth(message.author):
-                        await message.channel.send(
-                            "https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963"
-                        )
-                    else:
-                        for attachment in message.attachments:
-                            if attachment.filename.split(".")[-1].lower() in (
-                                "htm",
-                                "html",
-                            ):
-                                if load.set_current_file(attachment):
-                                    await message.channel.send("success")
-                                else:
-                                    await message.channel.send(
-                                        "failed to find messages to repost."
-                                    )
-                                break
+                    await commands.load_file(message)
                 case "$startposting":
-                    if not auth.auth(message.author):
-                        await message.channel.send(
-                            "https://tenor.com/view/wait-a-minute-who-are-you-kazoo-kid-funny-gif-16933963"
-                        )
-                    elif (current_file := load.get_current_file()) is not None:
-                        await commands.startposting(current_file, message.channel)
-                    else:
-                        await message.channel.send("no file loaded.")
+                    await commands.start_posting(message)
                 case "$whoami":
                     await commands.whoami(message)
                 case _:

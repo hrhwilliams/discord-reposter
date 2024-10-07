@@ -47,7 +47,8 @@ def collect_messages_html(messages):
 
         if had_attachments:
             yield post
-            post = next_group
+            yield next_group
+            post = ""
         else:
             post += next_group
 
@@ -61,7 +62,7 @@ def format_message_group(group):
     messages = group.find_all("div", { "class": "chatlog__message" })
     header = group.find("div", { "class": "chatlog__header" })
     if header is None:
-        return None, None
+        return None, False
 
     author = header.find("span", { "class": "chatlog__author" })
     nickname = author.text

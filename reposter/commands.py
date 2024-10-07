@@ -40,22 +40,21 @@ async def load_file(message):
 
 async def send_message(channel, message):
     '''automatically formats and splits'''
-    if len(message) == 0:
-        return
-    message = message.replace("\n", "\n> ")
+    message = "> " + message.strip().replace("\n", "\n> ")
     while len(message) > 1900:
         break_at = message.find(" ", 990)
         smaller_message = message[:break_at]
         await send_with_retry(channel, smaller_message)
         message = "> " + message[break_at+1:]
-    await send_with_retry(channel, message)
+    if len(message) > 0:
+        await send_with_retry(channel, message)
 
 
 async def send_with_retry(channel, message):
     for attempt in range(RETRY_LIMIT):
         try:
             await channel.send(message)
-            return  # Successfully sent, exit the function
+            return
         except discord.HTTPException as e:
             print(f"Attempt {attempt + 1} failed: {e}")
             print(message)
@@ -80,7 +79,6 @@ async def start_posting(message):
     user.set_user_is_currently_posting(message.author, False)
     await message.channel.send("all done")
 
-    currently_posting = False
     return
     current_timestamp = None
     message_to_send = ""

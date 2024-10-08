@@ -22,7 +22,7 @@ def read_as_json_in_html(response):
 
 
 def read_as_html(response):
-    soup = BeautifulSoup(str(response.content, encoding="utf-8"), "html.parser")
+    soup = BeautifulSoup(str(response.content, encoding="utf-8"), "lxml")
     messages = soup.find_all("div", { "class": "chatlog__message-group" })
     if len(messages) > 0:
         return messages
@@ -46,8 +46,7 @@ def collect_messages_html(messages):
             continue
 
         if had_attachments:
-            yield post
-            yield next_group
+            yield post + next_group
             post = ""
         else:
             post += next_group

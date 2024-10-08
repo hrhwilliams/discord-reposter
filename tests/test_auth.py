@@ -1,6 +1,7 @@
 import os
 import pytest
-import reposter.auth as auth
+from reposter import auth
+
 
 class TestUser:
     def __init__(self, id):

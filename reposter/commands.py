@@ -82,9 +82,9 @@ async def start_posting(message):
     return
     current_timestamp = None
     message_to_send = ""
-    for message in j:
+    for message in messages:
         if len(message_to_send) > 1200:
-            await send_message(channel, message_to_send)
+            await send_message(message.channel, message_to_send)
             message_to_send = ""
 
         timestamp = datetime.fromisoformat(message["timestamp"])
@@ -104,6 +104,6 @@ async def start_posting(message):
             message_to_send += f'**{message["author"]["username"]}** embeds:\n'
             for attachment in message["attachments"]:
                 message_to_send += f'{attachment["url"]}\n'
-            await send_message(channel, message_to_send)
+            await send_message(message.channel, message_to_send)
             message_to_send = ""
-    await send_message(channel, message_to_send)
+    await send_message(message.channel, message_to_send)
